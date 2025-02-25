@@ -9,7 +9,7 @@ The data retrieved from the Petfinder API can be structured into the following t
 This table will store essential information about each pet available for adoption.
 
 Column Name	Data Type	  Description
-pet_id	    String	    Unique identifier for the pet.
+pet_id	    Integer	    Unique identifier for the pet.
 name	      String	    Name of the pet.
 type	      String	    Species of the pet (e.g., dog, cat, bird).
 breed	      String	    Breed of the pet (e.g., Labrador, Siamese).
@@ -17,14 +17,14 @@ age	        String	    Age group (e.g., baby, young, adult, senior).
 size	      String	    Size of the pet (e.g., small, medium, large).
 gender	    String	    Gender of the pet (e.g., male, female).
 status	    String	    Adoption status (e.g., adoptable, adopted).
-photo_urls	String[]	  URLs of the pet's photos.
-shelter_id	String	    Foreign key linking to the Shelters table.
+photo_urls	Text	      URLs of the pet's photos.
+shelter_id	Integer     Foreign key linking to the Shelters table.
 
 2. Shelters Table
 This table will store essential information about the shelters or organizations where the pets are located.
 
 Column Name	  Data Type	  Description
-shelter_id	  String	    Unique identifier for the shelter.
+shelter_id	  Integer     Unique identifier for the shelter.
 name	        String	    Name of the shelter or organization.
 city	        String	    City where the shelter is located.
 state	        String	    State or region where the shelter is located.
