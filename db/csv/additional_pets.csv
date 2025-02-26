@@ -1,21 +1,21 @@
-pet_id,name,type,breed,age,size,gender,status,photo_urls,shelter_id
-8001,Buddy,Dog,Labrador,Young,Medium,Male,Adoptable,http://example.com/photo1.jpg,8001
-8002,Max,Cat,Siamese,Adult,Small,Female,Adoptable,http://example.com/photo2.jpg,8002
-8003,Bella,Bird,Parrot,Senior,Small,Female,Adoptable,http://example.com/photo3.jpg,8003
-8004,Charlie,Dog,Beagle,Young,Medium,Male,Adoptable,http://example.com/photo4.jpg,8004
-8005,Luna,Cat,Persian,Adult,Small,Female,Adoptable,http://example.com/photo5.jpg,8005
-8006,Rocky,Dog,Bulldog,Young,Medium,Male,Adoptable,http://example.com/photo6.jpg,8006
-8007,Lucy,Cat,Maine Coon,Senior,Large,Female,Adoptable,http://example.com/photo7.jpg,8007
-8008,Jack,Bird,Canary,Baby,Small,Male,Adoptable,http://example.com/photo8.jpg,8008
-8009,Daisy,Dog,Poodle,Adult,Small,Female,Adoptable,http://example.com/photo9.jpg,8009
-8010,Oscar,Cat,Bengal,Young,Medium,Male,Adoptable,http://example.com/photo10.jpg,8010
-8011,Molly,Dog,Golden Retriever,Senior,Large,Female,Adoptable,http://example.com/photo11.jpg,8011
-8012,Simba,Cat,Ragdoll,Adult,Medium,Male,Adoptable,http://example.com/photo12.jpg,8012
-8013,Chloe,Bird,Cockatiel,Young,Small,Female,Adoptable,http://example.com/photo13.jpg,8013
-8014,Bailey,Dog,Boxer,Young,Medium,Male,Adoptable,http://example.com/photo14.jpg,8014
-8015,Oliver,Cat,Sphynx,Adult,Small,Male,Adoptable,http://example.com/photo15.jpg,8015
-8016,Zoe,Dog,Shih Tzu,Senior,Small,Female,Adoptable,http://example.com/photo16.jpg,8016
-8017,Leo,Cat,Scottish Fold,Young,Medium,Male,Adoptable,http://example.com/photo17.jpg,8017
-8018,Lily,Bird,Lovebird,Baby,Small,Female,Adoptable,http://example.com/photo18.jpg,8018
-8019,Toby,Dog,Dachshund,Adult,Small,Male,Adoptable,http://example.com/photo19.jpg,8019
-8020,Sophie,Cat,British Shorthair,Senior,Large,Female,Adoptable,http://example.com/photo20.jpg,8020
+pet_id,name,animal_type,breed,age,size,gender,status,photo_urls,shelter_id
+8001,Buddy,Dog,Labrador,3,Large,Male,adoptable,http://example.com/buddy.jpg,8011
+8002,Luna,Cat,Siamese,2,Small,Female,adoptable,http://example.com/luna.jpg,8012
+8003,Max,Dog,Beagle,4,Medium,Male,adoptable,http://example.com/max.jpg,8013
+8004,Bella,Cat,Persian,1,Small,Female,adoptable,http://example.com/bella.jpg,8014
+8005,Charlie,Dog,Poodle,5,Medium,Male,adoptable,http://example.com/charlie.jpg,8015
+8006,Lucy,Cat,Maine Coon,3,Large,Female,adoptable,http://example.com/lucy.jpg,8011
+8007,Rocky,Dog,Bulldog,2,Medium,Male,adoptable,http://example.com/rocky.jpg,8012
+8008,Molly,Cat,Bengal,4,Small,Female,adoptable,http://example.com/molly.jpg,8003
+8009,Jack,Dog,Golden Retriever,6,Large,Male,adoptable,http://example.com/jack.jpg,8014
+8010,Daisy,Cat,Ragdoll,2,Medium,Female,adoptable,http://example.com/daisy.jpg,8005
+8011,Cooper,Dog,Boxer,3,Large,Male,adoptable,http://example.com/cooper.jpg,8001
+8012,Chloe,Cat,Sphynx,1,Small,Female,adoptable,http://example.com/chloe.jpg,8002
+8013,Bailey,Dog,Shih Tzu,4,Small,Male,adoptable,http://example.com/bailey.jpg,8003
+8014,Sophie,Cat,Scottish Fold,2,Medium,Female,adoptable,http://example.com/sophie.jpg,8004
+8015,Oliver,Dog,Dachshund,5,Small,Male,adoptable,http://example.com/oliver.jpg,8005
+8016,Lily,Cat,British Shorthair,3,Large,Female,adoptable,http://example.com/lily.jpg,8001
+8017,Bentley,Dog,Chihuahua,2,Small,Male,adoptable,http://example.com/bentley.jpg,8002
+8018,Zoey,Cat,American Shorthair,4,Medium,Female,adoptable,http://example.com/zoey.jpg,8003
+8019,Tucker,Dog,Great Dane,6,Large,Male,adoptable,http://example.com/tucker.jpg,8004
+8020,Mia,Cat,Oriental,2,Small,Female,adoptable,http://example.com/mia.jpg,8005

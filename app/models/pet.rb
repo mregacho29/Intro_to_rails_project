@@ -4,7 +4,7 @@ class Pet < ApplicationRecord
   has_many :tags, through: :pets_tags
 
   validates :name, presence: true
-  validates :type, presence: true
+  validates :animal_type, presence: true
   validates :breed, presence: true
   validates :age, presence: true
   validates :size, presence: true
