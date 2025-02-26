@@ -3,7 +3,6 @@ class Pet < ApplicationRecord
   has_many :pets_tags
   has_many :tags, through: :pets_tags
 
-  validates :pet_id, presence: true, uniqueness: true
   validates :name, presence: true
   validates :type, presence: true
   validates :breed, presence: true
@@ -11,4 +10,5 @@ class Pet < ApplicationRecord
   validates :size, presence: true
   validates :gender, presence: true
   validates :status, presence: true
+  validates :shelter_id, presence: true
 end
