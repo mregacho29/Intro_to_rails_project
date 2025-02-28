@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "pets/show"
   get "shelters/show"
   # Define the root route
   root "about#index"
