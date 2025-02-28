@@ -3,8 +3,28 @@
 <p><%= @shelter.website %></p>
 
 <h2>Pets</h2>
-<ul>
-  <% @pets.each do |pet| %>
-    <li><%= link_to pet.name, pet_path(pet) %></li>
-  <% end %>
-</ul>
+<% if @pets.any? %>
+  <ul>
+    <% @pets.each do |pet| %>
+      <li><%= link_to pet.name, pet_path(pet) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Coming soon</p>
+<% end %>
+
+<h2>Location</h2>
+<div id='map' style='width: 80%; height: 400px;'></div>
+<script>
+  mapboxgl.accessToken = '<%= ENV["MAPBOX_ACCESS_TOKEN"] %>';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [<%= @shelter.longitude %>, <%= @shelter.latitude %>],
+    zoom: 12
+  });
+
+  new mapboxgl.Marker()
+    .setLngLat([<%= @shelter.longitude %>, <%= @shelter.latitude %>])
+    .addTo(map);
+</script>

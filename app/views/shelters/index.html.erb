@@ -1,6 +1,24 @@
 <h1>Shelters</h1>
-<ul>
-  <% @shelters.each do |shelter| %>
-    <li><%= link_to shelter.name, shelter_path(shelter) %></li>
-  <% end %>
-</ul>
+
+<%= form_with url: shelters_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :search, "Search" %>
+    <%= text_field_tag :search, params[:search] %>
+  </div>
+  <div>
+    <%= label_tag :category, "Category" %>
+    <%= select_tag :category, options_from_collection_for_select(Category.all, :id, :name, params[:category]), include_blank: true %>
+  </div>
+  <div>
+    <%= submit_tag "Search" %>
+  </div>
+<% end %>
+
+<% @shelters.each do |shelter| %>
+  <div>
+    <h2><%= link_to shelter.name, shelter_path(shelter) %></h2>
+    <p><%= shelter.city %>, <%= shelter.state %>, <%= shelter.country %></p>
+  </div>
+<% end %>
+
+<%= paginate @shelters %>

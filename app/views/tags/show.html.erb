@@ -1,8 +1,12 @@
-<h1><%= @tag.name %></h1>
+<% if @tag.present? %>
+  <h1><%= @tag.name %></h1>
 
-<h2>Pets</h2>
-<ul>
-  <% @pets.each do |pet| %>
-    <li><%= link_to pet.name, pet_path(pet) %></li>
-  <% end %>
-</ul>
+  <h2>Pets</h2>
+  <ul>
+    <% @pets.each do |pet| %>
+      <li><%= link_to pet.name, pet_path(pet) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No tag information available.</p>
+<% end %>

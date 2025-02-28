@@ -7,6 +7,9 @@ class CreateShelters < ActiveRecord::Migration[8.0]
       t.string :state
       t.string :country
       t.string :website
+      t.float :latitude
+      t.float :longitude
+      t.integer :distance
 
       t.timestamps
     end

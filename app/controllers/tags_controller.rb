@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
   def show
-    @tags = Tag.find(params[:id])
-    @pets = @tags.pets
+    @tag = Tag.find_by(id: params[:id])
+    @pets = @tag.present? ? @tag.pets : []
   end
 end
