@@ -3,102 +3,102 @@ require 'json'
 require 'faker'
 require 'csv'
 
-# # Clear existing records
-# PetsTag.destroy_all
-# Pet.destroy_all
-# Tag.destroy_all
-# Shelter.destroy_all
+# Clear existing records
+PetsTag.destroy_all
+Pet.destroy_all
+Tag.destroy_all
+Shelter.destroy_all
 
-# # Create additional shelters from a CSV file
-# CSV.foreach("db/csv/additional_shelters.csv", headers: true) do |row|
-#   Shelter.create!(
-#     shelter_id: row["shelter_id"],
-#     name: row["name"],
-#     city: row["city"],
-#     state: row["state"],
-#     country: row["country"],
-#     website: row["website"]
-#   )
-# end
+# Create additional shelters from a CSV file
+CSV.foreach("db/csv/additional_shelters.csv", headers: true) do |row|
+  Shelter.create!(
+    shelter_id: row["shelter_id"],
+    name: row["name"],
+    city: row["city"],
+    state: row["state"],
+    country: row["country"],
+    website: row["website"]
+  )
+end
 
-# # Create additional tags from a CSV file
-# CSV.foreach("db/csv/additional_tags.csv", headers: true) do |row|
-#   Tag.find_or_create_by!(
-#     id: row["tag_id"],
-#     name: row["name"]
-#   )
-# end
+# Create additional tags from a CSV file
+CSV.foreach("db/csv/additional_tags.csv", headers: true) do |row|
+  Tag.find_or_create_by!(
+    id: row["tag_id"],
+    name: row["name"]
+  )
+end
 
-# # Create additional pets from a CSV file
-# CSV.foreach("db/csv/additional_pets.csv", headers: true) do |row|
-#   Pet.create!(
-#     pet_id: row["pet_id"],
-#     name: row["name"],
-#     animal_type: row["animal_type"],
-#     breed: row["breed"],
-#     age: row["age"],
-#     size: row["size"],
-#     gender: row["gender"],
-#     status: row["status"],
-#     photo_urls: row["photo_urls"],
-#     shelter_id: Shelter.find_by(shelter_id: row["shelter_id"]).id
-#   )
-# end
+# Create additional pets from a CSV file
+CSV.foreach("db/csv/additional_pets.csv", headers: true) do |row|
+  Pet.create!(
+    pet_id: row["pet_id"],
+    name: row["name"],
+    animal_type: row["animal_type"],
+    breed: row["breed"],
+    age: row["age"],
+    size: row["size"],
+    gender: row["gender"],
+    status: row["status"],
+    photo_urls: row["photo_urls"],
+    shelter_id: Shelter.find_by(shelter_id: row["shelter_id"]).id
+  )
+end
 
-# # Create pets_tags from a CSV file
-# CSV.foreach("db/csv/additional_pets_tags.csv", headers: true) do |row|
-#   pet = Pet.find_by(pet_id: row["pet_id"])
-#   tag = Tag.find_by(id: row["tag_id"])
-#   if pet && tag
-#     pet.tags << tag unless pet.tags.include?(tag)
-#   end
-# end
+# Create pets_tags from a CSV file
+CSV.foreach("db/csv/additional_pets_tags.csv", headers: true) do |row|
+  pet = Pet.find_by(pet_id: row["pet_id"])
+  tag = Tag.find_by(id: row["tag_id"])
+  if pet && tag
+    pet.tags << tag unless pet.tags.include?(tag)
+  end
+end
 
-# # Create a few shelters using Faker
-# 100.times do
-#   Shelter.create!(
-#     shelter_id: Faker::Number.unique.number(digits: 4),
-#     name: Faker::Company.name,
-#     city: Faker::Address.city,
-#     state: Faker::Address.state_abbr,
-#     country: "US",
-#     website: Faker::Internet.url
-#   )
-# end
+# Create a few shelters using Faker
+100.times do
+  Shelter.create!(
+    shelter_id: Faker::Number.unique.number(digits: 4),
+    name: Faker::Company.name,
+    city: Faker::Address.city,
+    state: Faker::Address.state_abbr,
+    country: "US",
+    website: Faker::Internet.url
+  )
+end
 
-# # Create 100 unique tags using Faker for both dogs and cats
-# unique_tags = Set.new
-# while unique_tags.size < 100
-#   unique_tags.add(Faker::Creature::Dog.meme_phrase)
-#   unique_tags.add(Faker::Creature::Cat.breed)
-# end
+# Create 100 unique tags using Faker for both dogs and cats
+unique_tags = Set.new
+while unique_tags.size < 100
+  unique_tags.add(Faker::Creature::Dog.meme_phrase)
+  unique_tags.add(Faker::Creature::Cat.breed)
+end
 
-# unique_tags.each do |tag_name|
-#   Tag.create!(name: tag_name)
-# end
+unique_tags.each do |tag_name|
+  Tag.create!(name: tag_name)
+end
 
-# # Create a large number of pets and associate them with tags using Faker
-# 150.times do
-#   shelter = Shelter.order('RANDOM()').first
-#   animal_type = [ 'Dog', 'Cat' ].sample
-#   pet = Pet.create!(
-#     pet_id: Faker::Number.unique.number(digits: 6),
-#     name: animal_type == 'Dog' ? Faker::Creature::Dog.name : Faker::Creature::Cat.name,
-#     animal_type: animal_type,
-#     breed: animal_type == 'Dog' ? Faker::Creature::Dog.breed : Faker::Creature::Cat.breed,
-#     age: [ 'Baby', 'Young', 'Adult', 'Senior' ].sample,
-#     size: [ 'Small', 'Medium', 'Large', 'Extra Large' ].sample,
-#     gender: [ 'Male', 'Female' ].sample,
-#     status: [ 'adoptable', 'adopted' ].sample,
-#     photo_urls: Faker::LoremFlickr.image(size: "300x300", search_terms: [ animal_type.downcase ]),
-#     shelter: shelter
-#   )
+# Create a large number of pets and associate them with tags using Faker
+150.times do
+  shelter = Shelter.order('RANDOM()').first
+  animal_type = [ 'Dog', 'Cat' ].sample
+  pet = Pet.create!(
+    pet_id: Faker::Number.unique.number(digits: 6),
+    name: animal_type == 'Dog' ? Faker::Creature::Dog.name : Faker::Creature::Cat.name,
+    animal_type: animal_type,
+    breed: animal_type == 'Dog' ? Faker::Creature::Dog.breed : Faker::Creature::Cat.breed,
+    age: [ 'Baby', 'Young', 'Adult', 'Senior' ].sample,
+    size: [ 'Small', 'Medium', 'Large', 'Extra Large' ].sample,
+    gender: [ 'Male', 'Female' ].sample,
+    status: [ 'adoptable', 'adopted' ].sample,
+    photo_urls: Faker::LoremFlickr.image(size: "300x300", search_terms: [ animal_type.downcase ]),
+    shelter: shelter
+  )
 
-#   # Associate each pet with 2 unique tags
-#   Tag.order('RANDOM()').limit(2).each do |tag|
-#     pet.tags << tag
-#   end
-# end
+  # Associate each pet with 2 unique tags
+  Tag.order('RANDOM()').limit(2).each do |tag|
+    pet.tags << tag
+  end
+end
 
 
 # Define your Petfinder API credentials
@@ -142,7 +142,7 @@ def fetch_with_retry(uri, req, max_retries = 5)
 end
 
 # Fetch shelters data from Petfinder
-uri = URI('https://api.petfinder.com/v2/organizations?limit=100')
+uri = URI('https://api.petfinder.com/v2/organizations?limit=50')
 req = Net::HTTP::Get.new(uri)
 req['Authorization'] = "Bearer #{access_token}"
 shelters_data = fetch_with_retry(uri, req)
