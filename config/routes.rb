@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
-  get "tags/show"
-  get "pets/show"
-  get "shelters/show"
   # Define the root route
   root "about#index"
   get "about", to: "about#index"
-
 
   resources :shelters do
     resources :pets, only: [ :index, :show ]
@@ -15,6 +11,7 @@ Rails.application.routes.draw do
     resources :tags, only: [ :index, :show ]
   end
 
+  resources :tags, only: [ :index, :show ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -1,2 +1,10 @@
-<h1>Shelters#show</h1>
-<p>Find me in app/views/shelters/show.html.erb</p>
+<h1><%= @shelter.name %></h1>
+<p><%= @shelter.city %>, <%= @shelter.state %>, <%= @shelter.country %></p>
+<p><%= @shelter.website %></p>
+
+<h2>Pets</h2>
+<ul>
+  <% @pets.each do |pet| %>
+    <li><%= link_to pet.name, pet_path(pet) %></li>
+  <% end %>
+</ul>
