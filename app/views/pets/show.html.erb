@@ -16,10 +16,14 @@
       <div class="card mb-4">
         <div class="card-body">
           <h2 class="card-title">Tags</h2>
-          <% @tags.each do |tag| %>
-            <%= link_to tag_path(tag), class: "btn btn-primary rounded-pill px-3 mb-2" do %>
-              <%= tag.name %>
+          <% if @tags.any? %>
+            <% @tags.each do |tag| %>
+              <%= link_to tag_path(tag), class: "btn btn-primary rounded-pill px-3 mb-2" do %>
+                <%= tag.name %>
+              <% end %>
             <% end %>
+          <% else %>
+            <p class="card-text">No tags available</p>
           <% end %>
         </div>
       </div>
@@ -29,11 +33,29 @@
         <div class="card-body">
           <h2 class="card-title">Photo</h2>
           <% if @pet.photo_urls.present? %>
-            <% @pet.photo_urls.split(', ').each do |photo_url| %>
-              <img src="<%= photo_url %>" class="img-fluid mb-2" alt="<%= @pet.name %>">
-            <% end %>
+            <img src="<%= @pet.photo_urls.split(', ').first %>" class="img-fluid mb-2" alt="<%= @pet.name %>">
           <% else %>
             <p class="card-text">No photo available</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title">Gallery</h2>
+          <% if @pet.photo_urls.present? %>
+            <div class="row">
+              <% @pet.photo_urls.split(', ').each do |photo_url| %>
+                <div class="col-md-4 mb-4">
+                  <img src="<%= photo_url %>" class="img-fluid" alt="<%= @pet.name %>">
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="card-text">No photos available</p>
           <% end %>
         </div>
       </div>

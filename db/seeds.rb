@@ -108,7 +108,7 @@ require 'csv'
 #     size: row["size"],
 #     gender: row["gender"],
 #     status: row["status"],
-#     photo_urls: row["photo_urls"],
+#     photo_urls: ActionController::Base.helpers.asset_path('default_pet_image.jpg'),
 #     shelter_id: Shelter.find_by(shelter_id: row["shelter_id"]).id
 #   )
 # end
@@ -179,73 +179,98 @@ require 'csv'
 #   end
 # end
 
+# # Track fetched shelter and pet IDs to ensure uniqueness
+# fetched_shelter_ids = Set.new
+# fetched_pet_ids = Set.new
+
 # # Fetch shelters data from Petfinder
-# uri = URI('https://api.petfinder.com/v2/organizations?limit=100')
-# req = Net::HTTP::Get.new(uri)
-# req['Authorization'] = "Bearer #{access_token}"
-# shelters_data = fetch_with_retry(uri, req)
+# (1..2).each do |page|
+#   uri = URI("https://api.petfinder.com/v2/organizations?limit=100&page=#{page}")
+#   req = Net::HTTP::Get.new(uri)
+#   req['Authorization'] = "Bearer #{access_token}"
+#   shelters_data = fetch_with_retry(uri, req)
 
-# if shelters_data
-#   shelters = shelters_data['organizations']
-# else
-#   shelters = nil
-# end
+#   if shelters_data
+#     shelters = shelters_data['organizations']
+#   else
+#     shelters = nil
+#   end
 
-# if shelters.nil?
-#   puts "Failed to fetch shelters data from Petfinder"
-# else
-#   # Seed the database with shelters data from Petfinder
-#   shelters.each do |shelter_data|
-#     address = shelter_data['address']
-#     latitude = address['latitude'] || Faker::Address.latitude
-#     longitude = address['longitude'] || Faker::Address.longitude
-#     distance = shelter_data['distance'] || Faker::Number.between(from: 1, to: 500)
+#   if shelters.nil?
+#     puts "Failed to fetch shelters data from Petfinder"
+#   else
+#     # Seed the database with shelters data from Petfinder
+#     shelters.each do |shelter_data|
+#       next if fetched_shelter_ids.include?(shelter_data['id'])
 
-#     shelter = Shelter.find_or_create_by!(
-#       shelter_id: shelter_data['id'],
-#       name: shelter_data['name'],
-#       city: address['city'],
-#       state: address['state'],
-#       country: address['country'],
-#       website: shelter_data['website'],
-#       latitude: latitude,
-#       longitude: longitude,
-#       distance: distance
-#     )
+#       fetched_shelter_ids.add(shelter_data['id'])
+#       address = shelter_data['address']
+#       latitude = address['latitude'] || Faker::Address.latitude
+#       longitude = address['longitude'] || Faker::Address.longitude
+#       distance = shelter_data['distance'] || Faker::Number.between(from: 1, to: 500)
 
-#     # Fetch pets data for each shelter from Petfinder and seed the database
-#     uri = URI("https://api.petfinder.com/v2/animals?organization=#{shelter_data['id']}&limit=3")
-#     req = Net::HTTP::Get.new(uri)
-#     req['Authorization'] = "Bearer #{access_token}"
-#     pets_data = fetch_with_retry(uri, req)
-
-#     if pets_data
-#       pets = pets_data['animals']
-#     else
-#       pets = nil
-#     end
-
-#     next if pets.nil?
-
-#     pets.each do |pet|
-#       pet_record = Pet.create!(
-#         pet_id: pet['id'],
-#         name: pet['name'],
-#         animal_type: pet['type'],
-#         breed: pet['breeds']['primary'],
-#         age: pet['age'],
-#         size: pet['size'],
-#         gender: pet['gender'],
-#         status: pet['status'],
-#         photo_urls: pet['photos'].map { |photo| photo['medium'] }.join(', '),
-#         shelter: shelter
+#       shelter = Shelter.find_or_create_by!(
+#         shelter_id: shelter_data['id'],
+#         name: shelter_data['name'],
+#         city: address['city'],
+#         state: address['state'],
+#         country: address['country'],
+#         website: shelter_data['website'],
+#         latitude: latitude,
+#         longitude: longitude,
+#         distance: distance
 #       )
 
-#       # Fetch and create tags, limit to 2 tags per pet
-#       pet['tags'].first(2).each do |tag_name|
-#         next if tag_name.blank?
+#       # Fetch pets data for each shelter from Petfinder and seed the database
+#       uri = URI("https://api.petfinder.com/v2/animals?organization=#{shelter_data['id']}&limit=5")
+#       req = Net::HTTP::Get.new(uri)
+#       req['Authorization'] = "Bearer #{access_token}"
+#       pets_data = fetch_with_retry(uri, req)
 
-#         tag = Tag.find_or_create_by!(name: tag_name)
+#       if pets_data
+#         pets = pets_data['animals']
+#       else
+#         pets = nil
+#       end
+
+#       next if pets.nil?
+
+#       pets.each do |pet|
+#         next if fetched_pet_ids.include?(pet['id'])
+
+#         fetched_pet_ids.add(pet['id'])
+#         pet_record = Pet.create!(
+#           pet_id: pet['id'],
+#           name: pet['name'],
+#           animal_type: pet['type'],
+#           breed: pet['breeds']['primary'],
+#           age: pet['age'],
+#           size: pet['size'],
+#           gender: pet['gender'],
+#           status: pet['status'],
+#           photo_urls: pet['photos'].map { |photo| photo['medium'] }.join(', '),
+#           shelter: shelter
+#         )
+
+#         # Fetch and create tags, limit to 3 tags per pet
+#         pet['tags'].sample(3).each do |tag_name|
+#           next if tag_name.blank?
+
+#           tag = Tag.find_or_create_by!(name: tag_name)
+#           pet_record.tags << tag
+#         end
+#       end
+#     end
+#   end
+# end
+
+
+
+
+
+#       4.times do
+#         faker_tag_name = Faker::Creature::Cat.breed
+#         tag = Tag.find_or_create_by!(name: faker_tag_name)
 #         pet_record.tags << tag
 #       end
 #     end
@@ -257,31 +282,38 @@ require 'csv'
 
 
 
-# Create categories
-categories = [ 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
-categories.each do |category_name|
-  Category.find_or_create_by!(name: category_name)
-end
 
-# Assign categories to shelters based on the animal types of the pets
-Shelter.all.each do |shelter|
-  animal_types = shelter.pets.pluck(:animal_type).uniq
-  category_name = if animal_types.include?('Dog')
-                    'Dog Shelter'
-  elsif animal_types.include?('Cat')
-                    'Cat Shelter'
-  else
-                    'Animal Shelter'
-  end
-  category = Category.find_by(name: category_name)
-  shelter.update!(category: category)
-end
+# Clear existing records
+Category.destroy_all
 
+# # Create categories
+# categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
+# categories.each do |category_name|
+#   Category.find_or_create_by!(name: category_name)
+# end
 
+# # Assign categories to shelters based on the animal types of the pets
+# Shelter.all.each do |shelter|
+#   animal_types = shelter.pets.pluck(:animal_type).uniq
+#   category_name = if animal_types.include?('Dog')
+#                     'Dog Shelter'
+#   elsif animal_types.include?('Cat')
+#                     'Cat Shelter'
+#   else
+#                     'Animal Shelter'
+#   end
+#   category = Category.find_by(name: category_name)
+#   shelter.update!(category_id: category.id)
+# end
 
+# # Assign "All Shelter" category to all shelters
+# all_shelter_category = Category.find_by(name: 'All Shelter')
+# Shelter.all.each do |shelter|
+#   shelter.update!(category_id: all_shelter_category.id)
+# end
 
-
-puts "Number of shelters seeded: #{Shelter.count}"
-puts "Number of pets seeded: #{Pet.count}"
-puts "Number of tags seeded: #{Tag.count}"
-puts "Number of pets_tags seeded: #{PetsTag.count}"
+# puts "Number of shelters seeded: #{Shelter.count}"
+# puts "Number of pets seeded: #{Pet.count}"
+# puts "Number of tags seeded: #{Tag.count}"
+# puts "Number of pets_tags seeded: #{PetsTag.count}"
+# puts "Number of categories seeded: #{Category.count}"

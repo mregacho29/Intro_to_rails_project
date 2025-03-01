@@ -5,7 +5,11 @@
         <div class="card-body">
           <h1 class="card-title"><%= @shelter.name %></h1>
           <p class="card-text"><%= @shelter.city %>, <%= @shelter.state %>, <%= @shelter.country %></p>
-          <p class="card-text"><%= link_to @shelter.website, @shelter.website, target: "_blank", rel: "noopener" %></p>
+          <% if @shelter.website.present? %>
+            <p class="card-text"><%= link_to @shelter.website, @shelter.website, target: "_blank", rel: "noopener" %></p>
+          <% else %>
+            <p class="card-text">No website available</p>
+          <% end %>
         </div>
       </div>
 
