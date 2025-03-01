@@ -1,0 +1,29 @@
+<div class="container my-4">
+  <h1 class="text-center mb-4">PetAdopter</h1>
+  <p class="text-center mb-4">Welcome to PetAdopter! Find your new best friend from our extensive database of pets available for adoption.</p>
+
+  <div class="row mt-4">
+    <% @pets.each do |pet| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <% if pet.photo_urls.present? %>
+            <%= image_tag pet.photo_urls.split(', ').first, class: 'card-img-top', alt: pet.name %>
+          <% else %>
+            <%= image_tag 'default_pet_image.jpg', class: 'card-img-top', alt: 'Default Pet Image' %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= pet.name %></h5>
+            <p class="card-text"><strong>Type:</strong> <%= pet.animal_type %></p>
+            <p class="card-text"><strong>Breed:</strong> <%= pet.breed %></p>
+            <p class="card-text"><strong>Age:</strong> <%= pet.age %></p>
+            <%= link_to 'View Details', pet_path(pet), class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <%= paginate @pets, theme: 'bootstrap-4' %>
+  </div>
+</div>

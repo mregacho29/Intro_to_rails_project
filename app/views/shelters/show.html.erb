@@ -1,30 +1,49 @@
-<h1><%= @shelter.name %></h1>
-<p><%= @shelter.city %>, <%= @shelter.state %>, <%= @shelter.country %></p>
-<p><%= @shelter.website %></p>
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h1 class="card-title"><%= @shelter.name %></h1>
+          <p class="card-text"><%= @shelter.city %>, <%= @shelter.state %>, <%= @shelter.country %></p>
+          <p class="card-text"><%= link_to @shelter.website, @shelter.website, target: "_blank", rel: "noopener" %></p>
+        </div>
+      </div>
 
-<h2>Pets</h2>
-<% if @pets.any? %>
-  <ul>
-    <% @pets.each do |pet| %>
-      <li><%= link_to pet.name, pet_path(pet) %></li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>Coming soon</p>
-<% end %>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title">Pets</h2>
+          <% if @pets.any? %>
+            <ul class="list-group list-group-flush">
+              <% @pets.each do |pet| %>
+                <li class="list-group-item"><%= link_to pet.name, pet_path(pet) %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="card-text">Coming soon</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title">Location</h2>
+          <div id='map' style='width: 100%; height: 400px;'></div>
+          <script>
+            mapboxgl.accessToken = '<%= ENV["MAPBOX_ACCESS_TOKEN"] %>';
+            var map = new mapboxgl.Map({
+              container: 'map',
+              style: 'mapbox://styles/mapbox/streets-v11',
+              center: [<%= @shelter.longitude %>, <%= @shelter.latitude %>],
+              zoom: 12
+            });
 
-<h2>Location</h2>
-<div id='map' style='width: 80%; height: 400px;'></div>
-<script>
-  mapboxgl.accessToken = '<%= ENV["MAPBOX_ACCESS_TOKEN"] %>';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [<%= @shelter.longitude %>, <%= @shelter.latitude %>],
-    zoom: 12
-  });
-
-  new mapboxgl.Marker()
-    .setLngLat([<%= @shelter.longitude %>, <%= @shelter.latitude %>])
-    .addTo(map);
-</script>
+            new mapboxgl.Marker()
+              .setLngLat([<%= @shelter.longitude %>, <%= @shelter.latitude %>])
+              .addTo(map);
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

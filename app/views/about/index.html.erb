@@ -1,9 +1,179 @@
-<h1>About Us</h1>
-<p>This application uses data from the following sources:</p>
-<ul>
-  <li>CSV files for shelters, tags, and pets</li>
-  <li>Petfinder API for additional shelters and pets data</li>
-  <li>Faker Gems for additional shelters, tags, and pets</li>
-</ul>
-<p>Our ERD (Entity-Relationship Diagram) is as follows:</p>
-<%= image_tag 'erd.png', alt: 'ERD' %>
+<div class="container my-4">
+  <h1 class="text-center mb-4">About Us</h1>
+  <p>This application uses data from the following sources:</p>
+  <ul class="list-group mb-4">
+    <li class="list-group-item">CSV files for shelters, tags, and pets</li>
+    <li class="list-group-item">Petfinder API for additional shelters and pets data</li>
+    <li class="list-group-item">Faker Gems for additional shelters, tags, and pets</li>
+  </ul>
+  <p>Our ERD (Entity-Relationship Diagram) is as follows:</p>
+  <div class="text-center mb-4">
+    <%= image_tag 'erd.png', alt: 'ERD', class: 'img-fluid' %>
+  </div>
+
+  <h1 class="mb-4">Dataset Description: Petfinder API</h1>
+  <p>The Petfinder API, which offers access to an extensive database of pets up for adoption from different shelters and rescue groups, serves as the project's main data source. Individual pet details, such as species, breed, age, size, gender, location, and adoption status, are provided by the API. It also offers metadata, like names, locations, and contact details, regarding shelters and organizations.</p>
+
+  <h2 class="mt-4">Data Structure and Required Tables/Columns</h2>
+  <p>The data retrieved from the Petfinder API can be structured into the following tables:</p>
+
+  <h3 class="mt-4">1. Pets Table</h3>
+  <p>This table will store essential information about each pet available for adoption.</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Column Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>pet_id</td>
+        <td>Integer</td>
+        <td>Unique identifier for the pet.</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>Name of the pet.</td>
+      </tr>
+      <tr>
+        <td>type</td>
+        <td>String</td>
+        <td>Species of the pet (e.g., dog, cat, bird).</td>
+      </tr>
+      <tr>
+        <td>breed</td>
+        <td>String</td>
+        <td>Breed of the pet (e.g., Labrador, Siamese).</td>
+      </tr>
+      <tr>
+        <td>age</td>
+        <td>String</td>
+        <td>Age group (e.g., baby, young, adult, senior).</td>
+      </tr>
+      <tr>
+        <td>size</td>
+        <td>String</td>
+        <td>Size of the pet (e.g., small, medium, large).</td>
+      </tr>
+      <tr>
+        <td>gender</td>
+        <td>String</td>
+        <td>Gender of the pet (e.g., male, female).</td>
+      </tr>
+      <tr>
+        <td>status</td>
+        <td>String</td>
+        <td>Adoption status (e.g., adoptable, adopted).</td>
+      </tr>
+      <tr>
+        <td>photo_urls</td>
+        <td>Text</td>
+        <td>URLs of the pet's photos.</td>
+      </tr>
+      <tr>
+        <td>shelter_id</td>
+        <td>Integer</td>
+        <td>Foreign key linking to the Shelters table.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="mt-4">2. Shelters Table</h3>
+  <p>This table will store essential information about the shelters or organizations where the pets are located.</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Column Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>shelter_id</td>
+        <td>Integer</td>
+        <td>Unique identifier for the shelter.</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>Name of the shelter or organization.</td>
+      </tr>
+      <tr>
+        <td>city</td>
+        <td>String</td>
+        <td>City where the shelter is located.</td>
+      </tr>
+      <tr>
+        <td>state</td>
+        <td>String</td>
+        <td>State or region where the shelter is located.</td>
+      </tr>
+      <tr>
+        <td>country</td>
+        <td>String</td>
+        <td>Country where the shelter is located.</td>
+      </tr>
+      <tr>
+        <td>website</td>
+        <td>String</td>
+        <td>Website URL of the shelter.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="mt-4">3. Tags Table</h3>
+  <p>This table will store various tags that describe the characteristics or attributes of pets.</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Column Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>id</td>
+        <td>Integer</td>
+        <td>Unique identifier for the tag.</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>Name of the tag (e.g., friendly, playful).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="mt-4">4. PetsTags Table</h3>
+  <p>This join table will store the associations between pets and tags, enabling a many-to-many relationship between the Pets and Tags tables.</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Column Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>pet_id</td>
+        <td>Integer</td>
+        <td>Foreign key linking to the Pets table.</td>
+      </tr>
+      <tr>
+        <td>tag_id</td>
+        <td>Integer</td>
+        <td>Foreign key linking to the Tags table.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="mt-4">Relationships Between Tables</h2>
+  <p><strong>Pets and Shelters:</strong> Each pet in the Pets Table is associated with a shelter in the Shelters Table via the shelter_id foreign key. This allows for querying pets based on their location or the shelter they belong to.</p>
+  <p><strong>Pets and Tags:</strong> Each pet in the Pets Table can have multiple tags, and each tag in the Tags Table can be associated with multiple pets through the PetsTags join table.</p>
+</div>

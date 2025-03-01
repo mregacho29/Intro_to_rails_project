@@ -1,12 +1,28 @@
-<% if @tag.present? %>
-  <h1><%= @tag.name %></h1>
+<div class="container my-4">
+  <% if @tag.present? %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h1 class="card-title"><%= @tag.name %></h1>
+      </div>
+    </div>
 
-  <h2>Pets</h2>
-  <ul>
-    <% @pets.each do |pet| %>
-      <li><%= link_to pet.name, pet_path(pet) %></li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No tag information available.</p>
-<% end %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="card-title">Pets</h2>
+        <% if @pets.any? %>
+          <ul class="list-group list-group-flush">
+            <% @pets.each do |pet| %>
+              <li class="list-group-item"><%= link_to pet.name, pet_path(pet) %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="card-text">No pets associated with this tag.</p>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="alert alert-warning" role="alert">
+      No tag information available.
+    </div>
+  <% end %>
+</div>

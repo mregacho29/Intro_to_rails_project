@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Define the root route
-  root "about#index"
+  root "home#index"
+
   get "about", to: "about#index"
 
   resources :shelters do

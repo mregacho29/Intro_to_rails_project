@@ -3,14 +3,14 @@ class SheltersController < ApplicationController
     @shelters = Shelter.all
 
     if params[:search].present?
-      @shelters = @shelters.where("name ILIKE ?", "%#{params[:search]}%")
+      @shelters = @shelters.where("name LIKE ?", "%#{params[:search]}%")
     end
 
     if params[:category].present?
       @shelters = @shelters.where(category_id: params[:category])
     end
 
-    @shelters = @shelters.page(params[:page]).per(10)
+    @shelters = @shelters.page(params[:page]).per(20)
   end
 
   def show
