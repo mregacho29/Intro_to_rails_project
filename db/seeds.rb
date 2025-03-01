@@ -32,7 +32,7 @@ require 'csv'
 #   )
 # end
 
-# # Create 150 unique tags using Faker for both dogs and cats
+# Create 150 unique tags using Faker for both dogs and cats
 # unique_tags = Set.new
 # while unique_tags.size < 200
 #   unique_tags.add(Faker::Creature::Dog.meme_phrase)
@@ -258,6 +258,14 @@ require 'csv'
 
 #           tag = Tag.find_or_create_by!(name: tag_name)
 #           pet_record.tags << tag
+
+
+
+#           4.times do
+#           faker_tag_name = Faker::Creature::Cat.breed
+#           tag = Tag.find_or_create_by!(name: faker_tag_name)
+#           pet_record.tags << tag
+#           end
 #         end
 #       end
 #     end
@@ -268,23 +276,12 @@ require 'csv'
 
 
 
-#       4.times do
-#         faker_tag_name = Faker::Creature::Cat.breed
-#         tag = Tag.find_or_create_by!(name: faker_tag_name)
-#         pet_record.tags << tag
-#       end
-#     end
-#   end
-# end
-
-
-
 
 
 
 
 # Clear existing records
-Category.destroy_all
+# Category.destroy_all
 
 # # Create categories
 # categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
@@ -312,8 +309,24 @@ Category.destroy_all
 #   shelter.update!(category_id: all_shelter_category.id)
 # end
 
-# puts "Number of shelters seeded: #{Shelter.count}"
-# puts "Number of pets seeded: #{Pet.count}"
-# puts "Number of tags seeded: #{Tag.count}"
-# puts "Number of pets_tags seeded: #{PetsTag.count}"
-# puts "Number of categories seeded: #{Category.count}"
+
+
+
+
+
+# Associate additional tags to existing pets
+existing_tags = Tag.all
+Pet.all.each do |pet|
+  additional_tags = existing_tags.sample(2) # Adjust the number of additional tags as needed
+  additional_tags.each do |tag|
+    pet.tags << tag unless pet.tags.include?(tag)
+  end
+end
+
+
+
+puts "Number of shelters seeded: #{Shelter.count}"
+puts "Number of pets seeded: #{Pet.count}"
+puts "Number of tags seeded: #{Tag.count}"
+puts "Number of pets_tags seeded: #{PetsTag.count}"
+puts "Number of categories seeded: #{Category.count}"
