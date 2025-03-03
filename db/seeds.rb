@@ -8,8 +8,6 @@ require 'csv'
 # Pet.destroy_all
 # Tag.destroy_all
 # Shelter.destroy_all
-Category.destroy_all
-
 
 
 
@@ -255,31 +253,31 @@ Category.destroy_all
 
 
 
-# Create categories
-categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
-categories.each do |category_name|
-  Category.find_or_create_by!(name: category_name)
-end
+# # Create categories
+# categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
+# categories.each do |category_name|
+#   Category.find_or_create_by!(name: category_name)
+# end
 
-# Assign categories to shelters based on the animal types of the pets
-Shelter.all.each do |shelter|
-  animal_types = shelter.pets.pluck(:animal_type).uniq
-  category_name = if animal_types.include?('Dog')
-                    'Dog Shelter'
-  elsif animal_types.include?('Cat')
-                    'Cat Shelter'
-  else
-                    'Animal Shelter'
-  end
-  category = Category.find_by(name: category_name)
-  shelter.update!(category_id: category.id)
-end
+# # Assign categories to shelters based on the animal types of the pets
+# Shelter.all.each do |shelter|
+#   animal_types = shelter.pets.pluck(:animal_type).uniq
+#   category_name = if animal_types.include?('Dog')
+#                     'Dog Shelter'
+#   elsif animal_types.include?('Cat')
+#                     'Cat Shelter'
+#   else
+#                     'Animal Shelter'
+#   end
+#   category = Category.find_by(name: category_name)
+#   shelter.update!(category_id: category.id)
+# end
 
-# Assign "All Shelter" category to all shelters
-all_shelter_category = Category.find_by(name: 'All Shelter')
-Shelter.all.each do |shelter|
-  shelter.update!(category_id: all_shelter_category.id)
-end
+# # Assign "All Shelter" category to all shelters
+# all_shelter_category = Category.find_by(name: 'All Shelter')
+# Shelter.all.each do |shelter|
+#   shelter.update!(category_id: all_shelter_category.id)
+# end
 
 
 
