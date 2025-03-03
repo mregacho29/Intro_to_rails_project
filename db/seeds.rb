@@ -8,7 +8,7 @@ require 'csv'
 # Pet.destroy_all
 # Tag.destroy_all
 # Shelter.destroy_all
-# Category.destroy_all
+Category.destroy_all
 
 
 
@@ -32,17 +32,17 @@ require 'csv'
 #   )
 # end
 
-# Create 50 unique tags using Faker for both dogs and cats
-unique_tags = Set.new
-while unique_tags.size < 50
-  unique_tags.add(Faker::Creature::Dog.meme_phrase)
-  unique_tags.add(Faker::Creature::Dog.breed)
-  unique_tags.add(Faker::Creature::Cat.breed)
-end
+# # Create 50 unique tags using Faker for both dogs and cats
+# unique_tags = Set.new
+# while unique_tags.size < 50
+#   unique_tags.add(Faker::Creature::Dog.meme_phrase)
+#   unique_tags.add(Faker::Creature::Dog.breed)
+#   unique_tags.add(Faker::Creature::Cat.breed)
+# end
 
-unique_tags.each do |tag_name|
-  Tag.create!(name: tag_name)
-end
+# unique_tags.each do |tag_name|
+#   Tag.create!(name: tag_name)
+# end
 
 # # Create a large number of pets and associate them with tags using Faker
 # 20.times do
@@ -255,45 +255,45 @@ end
 
 
 
-# # Create categories
-# categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
-# categories.each do |category_name|
-#   Category.find_or_create_by!(name: category_name)
-# end
-
-# # Assign categories to shelters based on the animal types of the pets
-# Shelter.all.each do |shelter|
-#   animal_types = shelter.pets.pluck(:animal_type).uniq
-#   category_name = if animal_types.include?('Dog')
-#                     'Dog Shelter'
-#   elsif animal_types.include?('Cat')
-#                     'Cat Shelter'
-#   else
-#                     'Animal Shelter'
-#   end
-#   category = Category.find_by(name: category_name)
-#   shelter.update!(category_id: category.id)
-# end
-
-# # Assign "All Shelter" category to all shelters
-# all_shelter_category = Category.find_by(name: 'All Shelter')
-# Shelter.all.each do |shelter|
-#   shelter.update!(category_id: all_shelter_category.id)
-# end
-
-
-
-
-
-
-# Associate additional tags to existing pets
-existing_tags = Tag.all
-Pet.all.each do |pet|
-  additional_tags = existing_tags.sample(1)
-  additional_tags.each do |tag|
-    pet.tags << tag unless pet.tags.include?(tag)
-  end
+# Create categories
+categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
+categories.each do |category_name|
+  Category.find_or_create_by!(name: category_name)
 end
+
+# Assign categories to shelters based on the animal types of the pets
+Shelter.all.each do |shelter|
+  animal_types = shelter.pets.pluck(:animal_type).uniq
+  category_name = if animal_types.include?('Dog')
+                    'Dog Shelter'
+  elsif animal_types.include?('Cat')
+                    'Cat Shelter'
+  else
+                    'Animal Shelter'
+  end
+  category = Category.find_by(name: category_name)
+  shelter.update!(category_id: category.id)
+end
+
+# Assign "All Shelter" category to all shelters
+all_shelter_category = Category.find_by(name: 'All Shelter')
+Shelter.all.each do |shelter|
+  shelter.update!(category_id: all_shelter_category.id)
+end
+
+
+
+
+
+
+# # Associate additional tags to existing pets
+# existing_tags = Tag.all
+# Pet.all.each do |pet|
+#   additional_tags = existing_tags.sample(1)
+#   additional_tags.each do |tag|
+#     pet.tags << tag unless pet.tags.include?(tag)
+#   end
+# end
 
 
 
