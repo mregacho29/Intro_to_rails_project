@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_28_080121) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_03_181741) do
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -66,4 +66,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_080121) do
   add_foreign_key "pets", "shelters"
   add_foreign_key "pets_tags", "pets"
   add_foreign_key "pets_tags", "tags"
+  add_foreign_key "shelters", "categories"
 end
