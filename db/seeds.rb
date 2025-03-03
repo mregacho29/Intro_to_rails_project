@@ -3,7 +3,7 @@ require 'json'
 require 'faker'
 require 'csv'
 
-# # Clear existing records
+# Clear existing records
 # PetsTag.destroy_all
 # Pet.destroy_all
 # Tag.destroy_all
@@ -18,7 +18,7 @@ require 'csv'
 
 
 # # Create a few shelters using Faker
-# 110.times do
+# 20.times do
 #   Shelter.create!(
 #     shelter_id: Faker::Number.unique.number(digits: 4),
 #     name: Faker::Company.name,
@@ -32,20 +32,20 @@ require 'csv'
 #   )
 # end
 
-# Create 150 unique tags using Faker for both dogs and cats
-# unique_tags = Set.new
-# while unique_tags.size < 200
-#   unique_tags.add(Faker::Creature::Dog.meme_phrase)
-#   unique_tags.add(Faker::Creature::Dog.breed)
-#   unique_tags.add(Faker::Creature::Cat.breed)
-# end
+# Create 50 unique tags using Faker for both dogs and cats
+unique_tags = Set.new
+while unique_tags.size < 50
+  unique_tags.add(Faker::Creature::Dog.meme_phrase)
+  unique_tags.add(Faker::Creature::Dog.breed)
+  unique_tags.add(Faker::Creature::Cat.breed)
+end
 
-# unique_tags.each do |tag_name|
-#   Tag.create!(name: tag_name)
-# end
+unique_tags.each do |tag_name|
+  Tag.create!(name: tag_name)
+end
 
 # # Create a large number of pets and associate them with tags using Faker
-# 150.times do
+# 20.times do
 #   shelter = Shelter.order('RANDOM()').first
 #   animal_type = [ 'Dog', 'Cat' ].sample
 #   pet = Pet.create!(
@@ -152,33 +152,6 @@ require 'csv'
 # })
 # access_token = JSON.parse(response.body)['access_token']
 
-# def fetch_with_retry(uri, req, max_retries = 5)
-#   retries = 0
-#   begin
-#     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
-#     if response.is_a?(Net::HTTPSuccess)
-#       JSON.parse(response.body)
-#     elsif response.code.to_i == 429
-#       raise "Rate limit exceeded"
-#     else
-#       puts "Failed to fetch data: #{response.code} #{response.message}"
-#       puts "Response body: #{response.body}"
-#       nil
-#     end
-#   rescue => e
-#     if retries < max_retries
-#       retries += 1
-#       sleep_time = 2**retries
-#       puts "Retrying in #{sleep_time} seconds due to error: #{e.message}"
-#       sleep(sleep_time)
-#       retry
-#     else
-#       puts "Max retries reached. Failed to fetch data due to error: #{e.message}"
-#       nil
-#     end
-#   end
-# end
-
 # # Track fetched shelter and pet IDs to ensure uniqueness
 # fetched_shelter_ids = Set.new
 # fetched_pet_ids = Set.new
@@ -188,7 +161,8 @@ require 'csv'
 #   uri = URI("https://api.petfinder.com/v2/organizations?limit=100&page=#{page}")
 #   req = Net::HTTP::Get.new(uri)
 #   req['Authorization'] = "Bearer #{access_token}"
-#   shelters_data = fetch_with_retry(uri, req)
+#   response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+#   shelters_data = JSON.parse(response.body)
 
 #   if shelters_data
 #     shelters = shelters_data['organizations']
@@ -225,7 +199,8 @@ require 'csv'
 #       uri = URI("https://api.petfinder.com/v2/animals?organization=#{shelter_data['id']}&limit=5")
 #       req = Net::HTTP::Get.new(uri)
 #       req['Authorization'] = "Bearer #{access_token}"
-#       pets_data = fetch_with_retry(uri, req)
+#       response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+#       pets_data = JSON.parse(response.body)
 
 #       if pets_data
 #         pets = pets_data['animals']
@@ -258,14 +233,13 @@ require 'csv'
 
 #           tag = Tag.find_or_create_by!(name: tag_name)
 #           pet_record.tags << tag
+#         end
 
-
-
-#           4.times do
+#         # Add additional tags using Faker
+#         4.times do
 #           faker_tag_name = Faker::Creature::Cat.breed
 #           tag = Tag.find_or_create_by!(name: faker_tag_name)
 #           pet_record.tags << tag
-#           end
 #         end
 #       end
 #     end
@@ -280,8 +254,6 @@ require 'csv'
 
 
 
-# Clear existing records
-# Category.destroy_all
 
 # # Create categories
 # categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
@@ -317,7 +289,7 @@ require 'csv'
 # Associate additional tags to existing pets
 existing_tags = Tag.all
 Pet.all.each do |pet|
-  additional_tags = existing_tags.sample(2) # Adjust the number of additional tags as needed
+  additional_tags = existing_tags.sample(1)
   additional_tags.each do |tag|
     pet.tags << tag unless pet.tags.include?(tag)
   end
