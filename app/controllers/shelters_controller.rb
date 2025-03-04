@@ -7,7 +7,7 @@ class SheltersController < ApplicationController
     end
 
     if params[:category].present?
-      @shelters = @shelters.where(category_id: params[:category])
+      @shelters = @shelters.joins(:categories).where(categories: { id: params[:category] })
     end
 
     @shelters = @shelters.page(params[:page]).per(20)

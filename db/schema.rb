@@ -10,11 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_03_181741) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_04_060358) do
   create_table "categories", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "categories_shelters", id: false, force: :cascade do |t|
+    t.integer "shelter_id", null: false
+    t.integer "category_id", null: false
+    t.index ["category_id"], name: "index_categories_shelters_on_category_id"
+    t.index ["shelter_id"], name: "index_categories_shelters_on_shelter_id"
   end
 
   create_table "pets", force: :cascade do |t|
@@ -54,7 +61,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_03_181741) do
     t.float "latitude"
     t.float "longitude"
     t.integer "distance"
-    t.integer "category_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -66,5 +72,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_03_181741) do
   add_foreign_key "pets", "shelters"
   add_foreign_key "pets_tags", "pets"
   add_foreign_key "pets_tags", "tags"
-  add_foreign_key "shelters", "categories"
 end

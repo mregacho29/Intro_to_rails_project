@@ -1,5 +1,5 @@
 class Shelter < ApplicationRecord
-  belongs_to :category, optional: true
+  has_and_belongs_to_many :categories
   has_many :pets
 
   validates :name, presence: true

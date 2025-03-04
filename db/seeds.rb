@@ -248,10 +248,8 @@ require 'csv'
 
 
 
-
-
-
-
+# Clear existing records
+Category.destroy_all
 
 # Create categories
 categories = [ 'All Shelter', 'Dog Shelter', 'Cat Shelter', 'Animal Shelter' ]
@@ -260,6 +258,7 @@ categories.each do |category_name|
 end
 
 # Assign categories to shelters based on the animal types of the pets
+all_shelter_category = Category.find_by(name: 'All Shelter')
 Shelter.all.each do |shelter|
   animal_types = shelter.pets.pluck(:animal_type).uniq
   category_name = if animal_types.include?('Dog')
@@ -270,14 +269,17 @@ Shelter.all.each do |shelter|
                     'Animal Shelter'
   end
   category = Category.find_by(name: category_name)
-  shelter.update!(category_id: category.id)
+  shelter.categories << category unless shelter.categories.include?(category)
+  shelter.categories << all_shelter_category unless shelter.categories.include?(all_shelter_category)
 end
 
-# Assign "All Shelter" category to all shelters
-all_shelter_category = Category.find_by(name: 'All Shelter')
-Shelter.all.each do |shelter|
-  shelter.update!(category_id: all_shelter_category.id)
-end
+
+
+# # Assign "All Shelter" category to all shelters
+# all_shelter_category = Category.find_by(name: 'All Shelter')
+# Shelter.all.each do |shelter|
+#   shelter.update!(category_id: all_shelter_category.id)
+# end
 
 
 
