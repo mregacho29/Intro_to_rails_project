@@ -42,7 +42,7 @@ gem "thruster", require: false
 
 gem "faker"
 gem "httparty"
-gem 'bootstrap', '~> 5.1.3'
+gem 'bootstrap', '~> 5.3.3'
 gem 'sassc-rails'
 gem 'kaminari'
 gem 'dotenv-rails', groups: [:development, :test]
